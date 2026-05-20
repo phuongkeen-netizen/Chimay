@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bảng Lịch Sinh Hoạt</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family: Arial, sans-serif;
+      background:#f3f4f6;
+      color:#333;
+    }
+
+    .app{
+      display:flex;
+      min-height:100vh;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar{
+      width:260px;
+      background:#ffffff;
+      border-right:1px solid #ddd;
+      padding:20px;
+    }
+
+    .sidebar h2{
+      font-size:18px;
+      margin-bottom:20px;
+      color:#2563eb;
+    }
+
+    .new-btn{
+      width:100%;
+      background:#22c55e;
+      color:white;
+      border:none;
+      padding:12px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:bold;
+      margin-bottom:20px;
+    }
+
+    .history-item{
+      padding:12px;
+      border:1px solid #ddd;
+      border-radius:10px;
+      margin-bottom:10px;
+      background:#f9fafb;
+      cursor:pointer;
+    }
+
+    .history-item.active{
+      border-color:#22c55e;
+      background:#ecfdf5;
+    }
+
+    /* MAIN */
+
+    .main{
+      flex:1;
+      padding:30px;
+    }
+
+    .title{
+      font-size:30px;
+      font-weight:bold;
+      margin-bottom:25px;
+      color:#2563eb;
+    }
+
+    .card{
+      background:white;
+      border-radius:20px;
+      padding:25px;
+      box-shadow:0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .section{
+      margin-bottom:25px;
+    }
+
+    label{
+      display:block;
+      margin-bottom:8px;
+      font-weight:bold;
+      font-size:14px;
+    }
+
+    input,
+    textarea,
+    select{
+      width:100%;
+      padding:12px;
+      border:1px solid #ddd;
+      border-radius:10px;
+      font-size:14px;
+    }
+
+    textarea{
+      resize:vertical;
+    }
+
+    .theme-group{
+      display:flex;
+      gap:15px;
+      margin-top:10px;
+    }
+
+    .theme{
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .dot{
+      width:18px;
+      height:18px;
+      border-radius:50%;
+    }
+
+    .orange{background:#f97316;}
+    .green{background:#22c55e;}
+    .blue{background:#3b82f6;}
+    .pink{background:#ec4899;}
+
+    .icon-group{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+
+    .icon{
+      width:45px;
+      height:45px;
+      border-radius:12px;
+      border:2px solid #ddd;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:24px;
+      cursor:pointer;
+      background:white;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:20px;
+    }
+
+    .task-box{
+      background:#fafafa;
+      border:1px solid #ddd;
+      border-radius:16px;
+      padding:15px;
+    }
+
+    .task-title{
+      font-size:18px;
+      margin-bottom:15px;
+      font-weight:bold;
+    }
+
+    .task{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      background:white;
+      border:1px solid #ddd;
+      border-radius:10px;
+      padding:10px;
+      margin-bottom:10px;
+    }
+
+    .task input[type="checkbox"]{
+      width:auto;
+    }
+
+    .save-buttons{
+      display:flex;
+      justify-content:flex-end;
+      gap:15px;
+      margin-top:25px;
+    }
+
+    .btn{
+      padding:12px 18px;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:bold;
+    }
+
+    .btn-save{
+      background:#3b82f6;
+      color:white;
+    }
+
+    .btn-preview{
+      background:#22c55e;
+      color:white;
+    }
+
+    @media(max-width:900px){
+
+      .app{
+        flex-direction:column;
+      }
+
+      .sidebar{
+        width:100%;
+      }
+
+      .grid-2,
+      .grid-3{
+        grid-template-columns:1fr;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+
+  <div class="sidebar">
+
+    <h2>Lịch Sử Bảng Lịch</h2>
+
+    <button class="new-btn">
+      + Tạo Mới
+    </button>
+
+    <div class="history-item">
+      Bảng chưa đặt tên
+    </div>
+
+    <div class="history-item active">
+      Lịch của CHIMAY
+    </div>
+
+  </div>
+
+  <!-- MAIN -->
+
+  <div class="main">
+
+    <div class="title">
+      Cấu Hình Bảng Lịch Sinh Hoạt
+    </div>
+
+    <div class="card">
+
+      <!-- TITLE -->
+
+      <div class="section">
+        <label>✍️ Tiêu đề chính của bảng</label>
+
+        <input
+          type="text"
+          value="🌟 BẢNG LỊCH SINH HOẠT"
+        />
+      </div>
+
+      <!-- NAME -->
+
+      <div class="section">
+        <label>Tên của con</label>
+
+        <input
+          type="text"
+          value="CHIMAY"
+        />
+      </div>
+
+      <!-- THEME -->
+
+      <div class="section">
+
+        <label>🎨 Chọn Màu Chủ Đạo</label>
+
+        <div class="theme-group">
+
+          <div class="theme">
+            <div class="dot orange"></div>
+            Cam
+          </div>
+
+          <div class="theme">
+            <div class="dot green"></div>
+            Xanh Lá
+          </div>
+
+          <div class="theme">
+            <div class="dot blue"></div>
+            Xanh Dương
+          </div>
+
+          <div class="theme">
+            <div class="dot pink"></div>
+            Hồng
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ICON -->
+
+      <div class="section">
+
+        <label>🐻 Chọn Icon Nhân Vật</label>
+
+        <div class="icon-group">
+
+          <div class="icon">🚫</div>
+          <div class="icon">⚡</div>
+          <div class="icon">🐱</div>
+          <div class="icon">👧</div>
+          <div class="icon">🐼</div>
+          <div class="icon">🐻</div>
+	  <div class="icon">🦆</div>
+
+        </div>
+
+      </div>
+
+      <!-- NOTE -->
+
+      <div class="section">
+
+        <label>📌 Lời dặn dò chung</label>
+
+        <textarea rows="3">
+Mẹ nhắc 1 lần → chỉ bằng 1 bộ đồ.
+Làm gì cũng có ĐẦU có CUỐI.
+        </textarea>
+
+      </div>
+
+      <!-- REWARD -->
+
+      <div class="grid-2">
+
+        <div class="section">
+
+          <label>🎁 Cửa hàng đổi quà</label>
+
+          <input type="text" value="Ví dụ: 10 sao = Xem TV 30p">
+
+          <br><br>
+
+          <input type="text" value="Ví dụ: 30 sao = Đi ăn gà rán">
+
+        </div>
+
+        <div class="section">
+
+          <label>⚠️ Góc nhắc nhở</label>
+
+          <input type="text" value="Làm không gọn gàng → Yêu cầu làm lại">
+
+          <br><br>
+
+          <input type="text" value="Cãi lời mẹ → Trừ 2 sao hôm đó">
+
+        </div>
+
+      </div>
+
+      <!-- TASKS -->
+
+      <div class="section">
+
+        <label>☑️ Danh sách việc cần làm</label>
+
+        <div class="grid-3">
+
+          <!-- MORNING -->
+
+          <div class="task-box">
+
+            <div class="task-title">
+              🌞 Việc Buổi Sáng
+            </div>
+
+            <div class="task">
+              <input type="checkbox">
+              <span>Dậy gấp chăn</span>
+            </div>
+
+            <div class="task">
+              <input type="checkbox">
+              <span>Vệ sinh cá nhân</span>
+            </div>
+
+            <div class="task">
+              <input type="checkbox">
+              <span>Ăn sáng</span>
+            </div>
+
+            <div class="task">
+              <input type="checkbox">
+              <span>Chuẩn bị cặp sách</span>
+            </div>
+
+          </div>
+
+          <!-- AFTERNOON -->
+
+          <div class="task-box">
+
+            <div class="task-title">
+              ☀️ Việc Buổi Chiều
+            </div>
+
+            <div class="task">
+              <input type="checkbox">
+              <span>Đi học về cất cặp</span>
+            </div>
+
+            <div class="task">
+              <input type="checkbox">
+              <span>Vui chơi thể thao</span>
+            </div>
+
+            <div class="task">
+              <input type="checkbox">
+              <span>Tắm rửa</span>
+            </div>
+
+            <div class="task">
+              <input type="checkbox">
+              <span>Lau nhà</span>
+            </div>
+
+          </div>
+
+          <!-- NIGHT -->
+
+          <div class="task-box">
+
+            <div class="task-title">
+              🌙 Việc Buổi Tối
+            </div>
+
+            <div class="task">
+              <input type="checkbox">
+              <span>Ăn tối</span>
+            </div>
+
+            <div class="task">
+              <input type="checkbox">
+              <span>Làm bài tập</span>
+            </div>
+
+            <div class="task">
+              <input type="checkbox">
+              <span>Học tiếng Anh</span>
+            </div>
+
+            <div class="task">
+              <input type="checkbox">
+              <span>Đánh răng đi ngủ</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- BUTTONS -->
+
+      <div class="save-buttons">
+
+        <button class="btn btn-save">
+          💾 Lưu Bảng Này
+        </button>
+
+        <button class="btn btn-preview">
+          🖨️ Xem Bản Mẫu & In
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
