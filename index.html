@@ -474,137 +474,104 @@ onclick="window.print()"
 let data = JSON.parse(localStorage.getItem("routineData")) || {
 
 morning:[
-  {text:"Dậy gấp chăn",done:false},
-  {text:"Đánh răng",done:false}
+  "Dậy gấp chăn",
+  "Đánh răng",
+  "Ăn sáng"
 ],
 
 afternoon:[
-  {text:"Học bài",done:false}
+  "Học bài",
+  "Thể thao"
 ],
 
 night:[
-  {text:"Đọc sách",done:false}
+  "Đọc sách",
+  "Đi ngủ"
 ]
 
 };
-
-// ICON SELECT
-
-document.querySelectorAll(".icon").forEach(icon=>{
-
-icon.onclick = ()=>{
-
-document.querySelectorAll(".icon")
-.forEach(i=>i.classList.remove("active"));
-
-icon.classList.add("active");
-
-saveData();
-
-};
-
-});
-
-// ADD TASK
-
-function addTask(group){
-
-let text = prompt("Nhập việc cần thêm:");
-
-if(!text) return;
-
-data[group].push({
-  text,
-  done:false
-});
-
-saveData();
-render();
-
-}
-
-// REMOVE TASK
-
-function removeTask(group,index){
-
-data[group].splice(index,1);
-
-saveData();
-render();
-
-}
-
-// TOGGLE
-
-function toggleTask(group,index){
-
-data[group][index].done =
-!data[group][index].done;
-
-saveData();
-
-}
-
-// EDIT
-
-function editTask(group,index,value){
-
-data[group][index].text = value;
-
-saveData();
-
-}
 
 // RENDER
 
 function render(){
 
-["morning","afternoon","night"]
-.forEach(group=>{
+renderGroup("morning");
+renderGroup("afternoon");
+renderGroup("night");
 
-let el = document.getElementById(group);
+}
 
-el.innerHTML = "";
+// RENDER GROUP
+
+function renderGroup(group){
+
+let container = document.getElementById(group);
+
+container.innerHTML = "";
 
 data[group].forEach((task,index)=>{
 
-let div = document.createElement("div");
+// TASK ROW
 
-div.className = "task";
+let row = document.createElement("div");
+row.className = "task";
 
-let checkbox = document.createElement("input");
-checkbox.type = "checkbox";
-checkbox.checked = task.done;
+// CHECKBOX
 
-checkbox.onchange = ()=>{
-  toggleTask(group,index);
-};
+let check = document.createElement("input");
+check.type = "checkbox";
+
+// TEXT INPUT
 
 let input = document.createElement("input");
 input.type = "text";
-input.value = task.text;
+input.value = task;
 
 input.oninput = (e)=>{
-  editTask(group,index,e.target.value);
+
+data[group][index] = e.target.value;
+
+saveData();
+
 };
 
-let btn = document.createElement("button");
-btn.className = "delete-btn";
-btn.innerText = "X";
+// DELETE BUTTON
 
-btn.onclick = ()=>{
-  removeTask(group,index);
+let del = document.createElement("button");
+del.innerText = "❌";
+del.className = "delete-btn";
+
+del.onclick = ()=>{
+
+data[group].splice(index,1);
+
+saveData();
+
+render();
+
 };
 
-div.appendChild(checkbox);
-div.appendChild(input);
-div.appendChild(btn);
+// APPEND
 
-el.appendChild(div);
+row.appendChild(check);
+row.appendChild(input);
+row.appendChild(del);
+
+container.appendChild(row);
 
 });
 
-});
+}
+
+// ADD TASK
+
+function addTask(group){
+
+data[group].push("");
+
+saveData();
+
+render();
 
 }
 
