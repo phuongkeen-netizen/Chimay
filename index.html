@@ -572,28 +572,33 @@ let div = document.createElement("div");
 
 div.className = "task";
 
-div.innerHTML = `
+let checkbox = document.createElement("input");
+checkbox.type = "checkbox";
+checkbox.checked = task.done;
 
-<input
-type="checkbox"
-${task.done ? "checked" : ""}
-onclick="toggleTask('${group}',${index})"
-/>
+checkbox.onchange = ()=>{
+  toggleTask(group,index);
+};
 
-<input
-type="text"
-value="${task.text}"
-oninput="editTask('${group}',${index},this.value)"
-/>
+let input = document.createElement("input");
+input.type = "text";
+input.value = task.text;
 
-<button
-class="delete-btn"
-onclick="removeTask('${group}',${index})"
->
-X
-</button>
+input.oninput = (e)=>{
+  editTask(group,index,e.target.value);
+};
 
-`;
+let btn = document.createElement("button");
+btn.className = "delete-btn";
+btn.innerText = "X";
+
+btn.onclick = ()=>{
+  removeTask(group,index);
+};
+
+div.appendChild(checkbox);
+div.appendChild(input);
+div.appendChild(btn);
 
 el.appendChild(div);
 
