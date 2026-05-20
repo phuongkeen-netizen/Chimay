@@ -1,514 +1,636 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bảng Lịch Sinh Hoạt</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bảng Sinh Hoạt Thông Minh</title>
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
+<style>
 
-    body{
-      font-family: Arial, sans-serif;
-      background:#f3f4f6;
-      color:#333;
-    }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: Inter, Arial;
+}
 
-    .app{
-      display:flex;
-      min-height:100vh;
-    }
+body{
+  background:#eef2f7;
+  color:#1e293b;
+}
 
-    /* SIDEBAR */
+.app{
+  display:flex;
+  min-height:100vh;
+}
 
-    .sidebar{
-      width:260px;
-      background:#ffffff;
-      border-right:1px solid #ddd;
-      padding:20px;
-    }
+/* SIDEBAR */
 
-    .sidebar h2{
-      font-size:18px;
-      margin-bottom:20px;
-      color:#2563eb;
-    }
+.sidebar{
+  width:260px;
+  background:white;
+  border-right:1px solid #ddd;
+  padding:20px;
+}
 
-    .new-btn{
-      width:100%;
-      background:#22c55e;
-      color:white;
-      border:none;
-      padding:12px;
-      border-radius:10px;
-      cursor:pointer;
-      font-weight:bold;
-      margin-bottom:20px;
-    }
+.logo{
+  font-size:22px;
+  font-weight:bold;
+  margin-bottom:20px;
+  color:#2563eb;
+}
 
-    .history-item{
-      padding:12px;
-      border:1px solid #ddd;
-      border-radius:10px;
-      margin-bottom:10px;
-      background:#f9fafb;
-      cursor:pointer;
-    }
+.new-btn{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  background:#22c55e;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  margin-bottom:20px;
+}
 
-    .history-item.active{
-      border-color:#22c55e;
-      background:#ecfdf5;
-    }
+.history{
+  background:#f8fafc;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:10px;
+  border:1px solid #ddd;
+}
 
-    /* MAIN */
+/* MAIN */
 
-    .main{
-      flex:1;
-      padding:30px;
-    }
+.main{
+  flex:1;
+  padding:25px;
+}
 
-    .title{
-      font-size:30px;
-      font-weight:bold;
-      margin-bottom:25px;
-      color:#2563eb;
-    }
+.header{
+  font-size:28px;
+  font-weight:bold;
+  margin-bottom:20px;
+  color:#2563eb;
+}
 
-    .card{
-      background:white;
-      border-radius:20px;
-      padding:25px;
-      box-shadow:0 2px 10px rgba(0,0,0,0.05);
-    }
+.card{
+  background:white;
+  border-radius:20px;
+  padding:25px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
 
-    .section{
-      margin-bottom:25px;
-    }
+/* FORM */
 
-    label{
-      display:block;
-      margin-bottom:8px;
-      font-weight:bold;
-      font-size:14px;
-    }
+.section{
+  margin-bottom:25px;
+}
 
-    input,
-    textarea,
-    select{
-      width:100%;
-      padding:12px;
-      border:1px solid #ddd;
-      border-radius:10px;
-      font-size:14px;
-    }
+label{
+  display:block;
+  margin-bottom:8px;
+  font-size:14px;
+  font-weight:bold;
+}
 
-    textarea{
-      resize:vertical;
-    }
+input,
+textarea,
+select{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  outline:none;
+}
 
-    .theme-group{
-      display:flex;
-      gap:15px;
-      margin-top:10px;
-    }
+textarea{
+  resize:vertical;
+}
 
-    .theme{
-      display:flex;
-      align-items:center;
-      gap:6px;
-    }
+/* GRID */
 
-    .dot{
-      width:18px;
-      height:18px;
-      border-radius:50%;
-    }
+.grid-2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
 
-    .orange{background:#f97316;}
-    .green{background:#22c55e;}
-    .blue{background:#3b82f6;}
-    .pink{background:#ec4899;}
+.grid-3{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:20px;
+}
 
-    .icon-group{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-top:10px;
-    }
+/* ICONS */
 
-    .icon{
-      width:45px;
-      height:45px;
-      border-radius:12px;
-      border:2px solid #ddd;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:24px;
-      cursor:pointer;
-      background:white;
-    }
+.icon-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:10px;
+}
 
-    .grid-2{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:20px;
-    }
+.icon{
+  width:48px;
+  height:48px;
+  border-radius:12px;
+  border:2px solid #ddd;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  cursor:pointer;
+  background:white;
+}
 
-    .grid-3{
-      display:grid;
-      grid-template-columns:1fr 1fr 1fr;
-      gap:20px;
-    }
+.icon.active{
+  border-color:#22c55e;
+  background:#dcfce7;
+}
 
-    .task-box{
-      background:#fafafa;
-      border:1px solid #ddd;
-      border-radius:16px;
-      padding:15px;
-    }
+/* TASK BOX */
 
-    .task-title{
-      font-size:18px;
-      margin-bottom:15px;
-      font-weight:bold;
-    }
+.task-box{
+  background:#f8fafc;
+  border:1px solid #ddd;
+  border-radius:16px;
+  padding:15px;
+}
 
-    .task{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      background:white;
-      border:1px solid #ddd;
-      border-radius:10px;
-      padding:10px;
-      margin-bottom:10px;
-    }
+.task-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
 
-    .task input[type="checkbox"]{
-      width:auto;
-    }
+.task-title{
+  font-weight:bold;
+  font-size:18px;
+}
 
-    .save-buttons{
-      display:flex;
-      justify-content:flex-end;
-      gap:15px;
-      margin-top:25px;
-    }
+.add-task-btn{
+  padding:8px 12px;
+  border:none;
+  border-radius:10px;
+  background:#3b82f6;
+  color:white;
+  cursor:pointer;
+}
 
-    .btn{
-      padding:12px 18px;
-      border:none;
-      border-radius:10px;
-      cursor:pointer;
-      font-weight:bold;
-    }
+.task{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:white;
+  border:1px solid #ddd;
+  border-radius:12px;
+  padding:10px;
+  margin-bottom:10px;
+}
 
-    .btn-save{
-      background:#3b82f6;
-      color:white;
-    }
+.task input[type=text]{
+  flex:1;
+}
 
-    .btn-preview{
-      background:#22c55e;
-      color:white;
-    }
+.delete-btn{
+  background:#ef4444;
+  border:none;
+  color:white;
+  padding:6px 8px;
+  border-radius:8px;
+  cursor:pointer;
+}
 
-    @media(max-width:900px){
+/* BUTTONS */
 
-      .app{
-        flex-direction:column;
-      }
+.footer-buttons{
+  display:flex;
+  justify-content:flex-end;
+  gap:15px;
+  margin-top:30px;
+}
 
-      .sidebar{
-        width:100%;
-      }
+.main-btn{
+  padding:12px 18px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  color:white;
+  font-weight:bold;
+}
 
-      .grid-2,
-      .grid-3{
-        grid-template-columns:1fr;
-      }
-    }
+.save-btn{
+  background:#2563eb;
+}
 
-  </style>
+.print-btn{
+  background:#22c55e;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+  .app{
+    flex-direction:column;
+  }
+
+  .sidebar{
+    width:100%;
+  }
+
+  .grid-2,
+  .grid-3{
+    grid-template-columns:1fr;
+  }
+}
+
+</style>
 </head>
 
 <body>
 
 <div class="app">
 
-  <!-- SIDEBAR -->
+<!-- SIDEBAR -->
 
-  <div class="sidebar">
+<div class="sidebar">
 
-    <h2>Lịch Sử Bảng Lịch</h2>
+<div class="logo">
+🦆 Routine Builder
+</div>
 
-    <button class="new-btn">
-      + Tạo Mới
-    </button>
+<button class="new-btn" onclick="resetData()">
++ Tạo Bảng Mới
+</button>
 
-    <div class="history-item">
-      Bảng chưa đặt tên
-    </div>
+<div class="history">
+📅 Lịch của CHIMAY
+</div>
 
-    <div class="history-item active">
-      Lịch của CHIMAY
-    </div>
-
-  </div>
-
-  <!-- MAIN -->
-
-  <div class="main">
-
-    <div class="title">
-      Cấu Hình Bảng Lịch Sinh Hoạt
-    </div>
-
-    <div class="card">
-
-      <!-- TITLE -->
-
-      <div class="section">
-        <label>✍️ Tiêu đề chính của bảng</label>
-
-        <input
-          type="text"
-          value="🌟 BẢNG LỊCH SINH HOẠT"
-        />
-      </div>
-
-      <!-- NAME -->
-
-      <div class="section">
-        <label>Tên của con</label>
-
-        <input
-          type="text"
-          value="CHIMAY"
-        />
-      </div>
-
-      <!-- THEME -->
-
-      <div class="section">
-
-        <label>🎨 Chọn Màu Chủ Đạo</label>
-
-        <div class="theme-group">
-
-          <div class="theme">
-            <div class="dot orange"></div>
-            Cam
-          </div>
-
-          <div class="theme">
-            <div class="dot green"></div>
-            Xanh Lá
-          </div>
-
-          <div class="theme">
-            <div class="dot blue"></div>
-            Xanh Dương
-          </div>
-
-          <div class="theme">
-            <div class="dot pink"></div>
-            Hồng
-          </div>
-
-        </div>
-
-      </div>
-
-      <!-- ICON -->
-
-      <div class="section">
-
-        <label>🐻 Chọn Icon Nhân Vật</label>
-
-        <div class="icon-group">
-
-          <div class="icon">🚫</div>
-          <div class="icon">⚡</div>
-          <div class="icon">🐱</div>
-          <div class="icon">👧</div>
-          <div class="icon">🐼</div>
-          <div class="icon">🐻</div>
-	  <div class="icon">🦆</div>
-
-        </div>
-
-      </div>
-
-      <!-- NOTE -->
-
-      <div class="section">
-
-        <label>📌 Lời dặn dò chung</label>
-
-        <textarea rows="3">
-Mẹ nhắc 1 lần → chỉ bằng 1 bộ đồ.
-Làm gì cũng có ĐẦU có CUỐI.
-        </textarea>
-
-      </div>
-
-      <!-- REWARD -->
-
-      <div class="grid-2">
-
-        <div class="section">
-
-          <label>🎁 Cửa hàng đổi quà</label>
-
-          <input type="text" value="Ví dụ: 10 sao = Xem TV 30p">
-
-          <br><br>
-
-          <input type="text" value="Ví dụ: 30 sao = Đi ăn gà rán">
-
-        </div>
-
-        <div class="section">
-
-          <label>⚠️ Góc nhắc nhở</label>
-
-          <input type="text" value="Làm không gọn gàng → Yêu cầu làm lại">
-
-          <br><br>
-
-          <input type="text" value="Cãi lời mẹ → Trừ 2 sao hôm đó">
-
-        </div>
-
-      </div>
-
-      <!-- TASKS -->
-
-      <div class="section">
-
-        <label>☑️ Danh sách việc cần làm</label>
-
-        <div class="grid-3">
-
-          <!-- MORNING -->
-
-          <div class="task-box">
-
-            <div class="task-title">
-              🌞 Việc Buổi Sáng
-            </div>
-
-            <div class="task">
-              <input type="checkbox">
-              <span>Dậy gấp chăn</span>
-            </div>
-
-            <div class="task">
-              <input type="checkbox">
-              <span>Vệ sinh cá nhân</span>
-            </div>
-
-            <div class="task">
-              <input type="checkbox">
-              <span>Ăn sáng</span>
-            </div>
-
-            <div class="task">
-              <input type="checkbox">
-              <span>Chuẩn bị cặp sách</span>
-            </div>
-
-          </div>
-
-          <!-- AFTERNOON -->
-
-          <div class="task-box">
-
-            <div class="task-title">
-              ☀️ Việc Buổi Chiều
-            </div>
-
-            <div class="task">
-              <input type="checkbox">
-              <span>Đi học về cất cặp</span>
-            </div>
-
-            <div class="task">
-              <input type="checkbox">
-              <span>Vui chơi thể thao</span>
-            </div>
-
-            <div class="task">
-              <input type="checkbox">
-              <span>Tắm rửa</span>
-            </div>
-
-            <div class="task">
-              <input type="checkbox">
-              <span>Lau nhà</span>
-            </div>
-
-          </div>
-
-          <!-- NIGHT -->
-
-          <div class="task-box">
-
-            <div class="task-title">
-              🌙 Việc Buổi Tối
-            </div>
-
-            <div class="task">
-              <input type="checkbox">
-              <span>Ăn tối</span>
-            </div>
-
-            <div class="task">
-              <input type="checkbox">
-              <span>Làm bài tập</span>
-            </div>
-
-            <div class="task">
-              <input type="checkbox">
-              <span>Học tiếng Anh</span>
-            </div>
-
-            <div class="task">
-              <input type="checkbox">
-              <span>Đánh răng đi ngủ</span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <!-- BUTTONS -->
-
-      <div class="save-buttons">
-
-        <button class="btn btn-save">
-          💾 Lưu Bảng Này
-        </button>
-
-        <button class="btn btn-preview">
-          🖨️ Xem Bản Mẫu & In
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
+<div class="history">
+🌟 Bảng tuần này
+</div>
 
 </div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="header">
+Cấu Hình Bảng Sinh Hoạt
+</div>
+
+<div class="card">
+
+<!-- TITLE -->
+
+<div class="section">
+<label>✍️ Tiêu đề chính của bảng</label>
+
+<input
+id="mainTitle"
+value="🌟 BẢNG LỊCH SINH HOẠT"
+/>
+</div>
+
+<!-- CHILD NAME -->
+
+<div class="section">
+<label>🧒 Tên</label>
+
+<input
+id="childName"
+value="CHIMAY"
+/>
+</div>
+
+<!-- ICON -->
+
+<div class="section">
+
+<label>🦆 Chọn Icon</label>
+
+<div class="icon-list">
+
+<div class="icon active">🦆</div>
+<div class="icon">🐱</div>
+<div class="icon">🐶</div>
+<div class="icon">🐻</div>
+<div class="icon">⚡</div>
+<div class="icon">🌟</div>
+<div class="icon">🚀</div>
+
+</div>
+
+</div>
+
+<!-- NOTE -->
+
+<div class="section">
+
+<label>📌 Lời nhắc chung</label>
+
+<textarea
+id="note"
+rows="3"
+>Nhớ hoàn thành công việc trước khi chơi.</textarea>
+
+</div>
+
+<!-- REWARD -->
+
+<div class="grid-2">
+
+<div class="section">
+
+<label>🎁 Cửa hàng đổi quà</label>
+
+<textarea
+id="reward"
+rows="4"
+>10 sao = Xem TV 30 phút
+30 sao = Đi ăn gà rán</textarea>
+
+</div>
+
+<div class="section">
+
+<label>⚠️ Góc nhắc nhở</label>
+
+<textarea
+id="warning"
+rows="4"
+>Làm không gọn gàng → làm lại
+Cãi lời → trừ 2 sao</textarea>
+
+</div>
+
+</div>
+
+<!-- TASK AREA -->
+
+<div class="section">
+
+<label>☑️ Danh sách việc cần làm</label>
+
+<div class="grid-3">
+
+<!-- MORNING -->
+
+<div class="task-box">
+
+<div class="task-header">
+<div class="task-title">🌞 Buổi sáng</div>
+
+<button
+class="add-task-btn"
+onclick="addTask('morning')"
+>
++ Thêm
+</button>
+
+</div>
+
+<div id="morning"></div>
+
+</div>
+
+<!-- AFTERNOON -->
+
+<div class="task-box">
+
+<div class="task-header">
+<div class="task-title">☀️ Buổi chiều</div>
+
+<button
+class="add-task-btn"
+onclick="addTask('afternoon')"
+>
++ Thêm
+</button>
+
+</div>
+
+<div id="afternoon"></div>
+
+</div>
+
+<!-- NIGHT -->
+
+<div class="task-box">
+
+<div class="task-header">
+<div class="task-title">🌙 Buổi tối</div>
+
+<button
+class="add-task-btn"
+onclick="addTask('night')"
+>
++ Thêm
+</button>
+
+</div>
+
+<div id="night"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- BUTTONS -->
+
+<div class="footer-buttons">
+
+<button
+class="main-btn save-btn"
+onclick="saveData()"
+>
+💾 Lưu
+</button>
+
+<button
+class="main-btn print-btn"
+onclick="window.print()"
+>
+🖨️ In
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let data = JSON.parse(localStorage.getItem("routineData")) || {
+
+morning:[
+  {text:"Dậy gấp chăn",done:false},
+  {text:"Đánh răng",done:false}
+],
+
+afternoon:[
+  {text:"Học bài",done:false}
+],
+
+night:[
+  {text:"Đọc sách",done:false}
+]
+
+};
+
+// ICON SELECT
+
+document.querySelectorAll(".icon").forEach(icon=>{
+
+icon.onclick = ()=>{
+
+document.querySelectorAll(".icon")
+.forEach(i=>i.classList.remove("active"));
+
+icon.classList.add("active");
+
+saveData();
+
+};
+
+});
+
+// ADD TASK
+
+function addTask(group){
+
+let text = prompt("Nhập việc cần thêm:");
+
+if(!text) return;
+
+data[group].push({
+  text,
+  done:false
+});
+
+saveData();
+render();
+
+}
+
+// REMOVE TASK
+
+function removeTask(group,index){
+
+data[group].splice(index,1);
+
+saveData();
+render();
+
+}
+
+// TOGGLE
+
+function toggleTask(group,index){
+
+data[group][index].done =
+!data[group][index].done;
+
+saveData();
+
+}
+
+// EDIT
+
+function editTask(group,index,value){
+
+data[group][index].text = value;
+
+saveData();
+
+}
+
+// RENDER
+
+function render(){
+
+["morning","afternoon","night"]
+.forEach(group=>{
+
+let el = document.getElementById(group);
+
+el.innerHTML = "";
+
+data[group].forEach((task,index)=>{
+
+let div = document.createElement("div");
+
+div.className = "task";
+
+div.innerHTML = `
+
+<input
+type="checkbox"
+${task.done ? "checked" : ""}
+onclick="toggleTask('${group}',${index})"
+/>
+
+<input
+type="text"
+value="${task.text}"
+oninput="editTask('${group}',${index},this.value)"
+/>
+
+<button
+class="delete-btn"
+onclick="removeTask('${group}',${index})"
+>
+X
+</button>
+
+`;
+
+el.appendChild(div);
+
+});
+
+});
+
+}
+
+// SAVE
+
+function saveData(){
+
+localStorage.setItem(
+"routineData",
+JSON.stringify(data)
+);
+
+}
+
+// RESET
+
+function resetData(){
+
+if(confirm("Xóa toàn bộ dữ liệu?")){
+
+localStorage.removeItem("routineData");
+
+location.reload();
+
+}
+
+}
+
+render();
+
+</script>
 
 </body>
 </html>
