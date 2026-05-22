@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bảng Sinh Hoạt</title>
+<title>Routine Generator Full</title>
 
 <style>
 
@@ -16,48 +16,41 @@
 }
 
 body{
-  background:#f1f5f9;
+  background:#eef2f7;
   padding:20px;
-  color:#1e293b;
+  color:#222;
 }
 
-.container{
-  max-width:1200px;
-  margin:auto;
+.app{
+  display:grid;
+  grid-template-columns:380px 1fr;
+  gap:20px;
+}
+
+/* LEFT PANEL */
+
+.panel{
   background:white;
   border-radius:20px;
-  padding:25px;
-  box-shadow:0 4px 15px rgba(0,0,0,0.08);
+  padding:20px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  height:fit-content;
+  position:sticky;
+  top:20px;
 }
 
-/* HEADER */
-
-.title{
-  text-align:center;
-  font-size:34px;
-  font-weight:bold;
-  color:#2563eb;
-  margin-bottom:25px;
-}
-
-/* INFO */
-
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:20px;
+.panel h2{
   margin-bottom:20px;
+  color:#2563eb;
 }
 
 .section{
-  background:#f8fafc;
-  border:1px solid #ddd;
-  border-radius:15px;
-  padding:15px;
+  margin-bottom:20px;
 }
 
 .section h3{
-  margin-bottom:12px;
+  margin-bottom:10px;
+  font-size:15px;
   color:#2563eb;
 }
 
@@ -67,6 +60,7 @@ textarea{
   padding:10px;
   border-radius:10px;
   border:1px solid #ccc;
+  margin-bottom:10px;
   font-size:14px;
 }
 
@@ -74,85 +68,22 @@ textarea{
   resize:vertical;
 }
 
-/* ICON */
-
-.icon-list{
+.task-input{
   display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:10px;
+  gap:8px;
+  margin-bottom:8px;
 }
 
-.icon{
-  width:50px;
-  height:50px;
-  border-radius:12px;
-  border:2px solid #ddd;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:24px;
+.task-input input{
+  flex:1;
+}
+
+.small-btn{
+  border:none;
+  padding:8px 10px;
+  border-radius:8px;
   cursor:pointer;
-  background:white;
-}
-
-.icon.active{
-  background:#dcfce7;
-  border-color:#22c55e;
-}
-
-/* TABLE */
-
-.table-wrapper{
-  overflow:auto;
-}
-
-.routine-table{
-  width:100%;
-  border-collapse:collapse;
-  margin-top:15px;
-}
-
-.routine-table th,
-.routine-table td{
-  border:1px solid #ddd;
-  padding:10px;
-  text-align:center;
-}
-
-.routine-table th{
-  background:#eff6ff;
-  color:#2563eb;
-}
-
-.routine-table input[type=text]{
-  border:none;
-  background:transparent;
-  width:100%;
-  padding:5px;
-}
-
-.routine-table input[type=checkbox]{
-  width:20px;
-  height:20px;
-}
-
-/* BUTTONS */
-
-.top-actions{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:15px;
-}
-
-.btn{
-  border:none;
-  padding:10px 15px;
-  border-radius:10px;
   color:white;
-  cursor:pointer;
-  font-weight:bold;
 }
 
 .add-btn{
@@ -161,17 +92,138 @@ textarea{
 
 .delete-btn{
   background:#ef4444;
-  padding:6px 10px;
 }
 
-.print-btn{
+.generate-btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
   background:#22c55e;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
 }
 
-.footer{
+/* PREVIEW */
+
+.preview{
+  background:white;
+  border-radius:20px;
+  padding:40px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* PAPER */
+
+.paper{
+  width:210mm;
+  min-height:297mm;
+  margin:auto;
+  background:white;
+  color:#111;
+}
+
+/* TITLE */
+
+.paper-title{
+  text-align:center;
+  margin-bottom:25px;
+}
+
+.paper-title h1{
+  font-size:36px;
+  margin-bottom:10px;
+}
+
+.paper-title p{
+  font-size:15px;
+}
+
+/* HEADER */
+
+.top-info{
   display:flex;
-  justify-content:flex-end;
-  margin-top:25px;
+  justify-content:space-between;
+  margin-bottom:25px;
+  font-size:16px;
+}
+
+/* TABLE */
+
+.block{
+  margin-bottom:25px;
+}
+
+.block h2{
+  margin-bottom:10px;
+  font-size:24px;
+}
+
+.routine-table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.routine-table th,
+.routine-table td{
+  border:1px solid #888;
+  padding:8px;
+  text-align:center;
+}
+
+.routine-table th:first-child,
+.routine-table td:first-child{
+  text-align:left;
+  width:40%;
+}
+
+.checkbox{
+  width:18px;
+  height:18px;
+  border:1px solid #666;
+  margin:auto;
+}
+
+/* STAR */
+
+.star-area{
+  text-align:center;
+  margin:30px 0;
+}
+
+.stars{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  margin-top:10px;
+}
+
+.star{
+  width:40px;
+  height:40px;
+  border:2px solid #999;
+  border-radius:50%;
+}
+
+/* NOTES */
+
+.bottom-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.note-box{
+  border:2px dashed #aaa;
+  padding:15px;
+  border-radius:15px;
+  min-height:120px;
+}
+
+.note-box h3{
+  margin-bottom:10px;
 }
 
 /* PRINT */
@@ -183,27 +235,29 @@ body{
   padding:0;
 }
 
-.btn{
+.panel{
   display:none;
 }
 
-.container{
+.preview{
   box-shadow:none;
-  border:none;
+  padding:0;
+}
+
+.app{
+  display:block;
 }
 
 }
 
-/* MOBILE */
+@media(max-width:1200px){
 
-@media(max-width:900px){
-
-.grid{
+.app{
   grid-template-columns:1fr;
 }
 
-.title{
-  font-size:26px;
+.paper{
+  width:100%;
 }
 
 }
@@ -213,22 +267,31 @@ body{
 
 <body>
 
-<div class="container">
+<div class="app">
 
-<div class="title">
-🌟 BẢNG LỊCH SINH HOẠT 🌟
-</div>
+<!-- LEFT PANEL -->
 
-<!-- INFO -->
+<div class="panel">
 
-<div class="grid">
+<h2>🦆 Routine Generator</h2>
 
 <div class="section">
 
-<h3>🧒 Tên của bé</h3>
+<h3>Tiêu đề</h3>
 
 <input
-type="text"
+id="titleInput"
+value="🌟 BẢNG LỊCH SINH HOẠT"
+/>
+
+</div>
+
+<div class="section">
+
+<h3>Tên bé</h3>
+
+<input
+id="nameInput"
 value="CHIMAY"
 />
 
@@ -236,35 +299,24 @@ value="CHIMAY"
 
 <div class="section">
 
-<h3>🦆 Chọn icon</h3>
+<h3>Sao tuần trước</h3>
 
-<div class="icon-list">
-
-<div class="icon active">🦆</div>
-<div class="icon">🐱</div>
-<div class="icon">🐻</div>
-<div class="icon">🐶</div>
-<div class="icon">⚡</div>
-<div class="icon">🌟</div>
+<input
+id="starInput"
+value="15"
+/>
 
 </div>
-
-</div>
-
-</div>
-
-<!-- NOTE -->
-
-<div class="grid">
 
 <div class="section">
 
 <h3>🎁 Cửa hàng đổi quà</h3>
 
-<textarea rows="4">
-10 sao = Xem TV 30 phút
-30 sao = Đi ăn gà rán
-</textarea>
+<textarea
+id="rewardInput"
+rows="4"
+>10 sao = Xem TV 30 phút
+30 sao = Đi ăn gà rán</textarea>
 
 </div>
 
@@ -272,40 +324,117 @@ value="CHIMAY"
 
 <h3>⚠️ Góc nhắc nhở</h3>
 
-<textarea rows="4">
-Làm không gọn gàng → làm lại
-Cãi lời → trừ 2 sao
-</textarea>
+<textarea
+id="warningInput"
+rows="4"
+>Làm không gọn gàng → làm lại
+Cãi lời → trừ 2 sao</textarea>
 
 </div>
 
-</div>
-
-<!-- TABLE -->
+<!-- MORNING -->
 
 <div class="section">
 
-<div class="top-actions">
+<h3>🌞 Việc buổi sáng</h3>
 
-<h3>☑️ Danh sách việc cần làm</h3>
+<div id="morningInputs"></div>
 
 <button
-class="btn add-btn"
-onclick="addTask()"
+class="small-btn add-btn"
+onclick="addTaskInput('morningInputs')"
 >
-+ Thêm việc
++ Thêm
 </button>
 
 </div>
 
-<div class="table-wrapper">
+<!-- AFTERNOON -->
+
+<div class="section">
+
+<h3>☀️ Việc buổi chiều</h3>
+
+<div id="afternoonInputs"></div>
+
+<button
+class="small-btn add-btn"
+onclick="addTaskInput('afternoonInputs')"
+>
++ Thêm
+</button>
+
+</div>
+
+<!-- NIGHT -->
+
+<div class="section">
+
+<h3>🌙 Việc buổi tối</h3>
+
+<div id="nightInputs"></div>
+
+<button
+class="small-btn add-btn"
+onclick="addTaskInput('nightInputs')"
+>
++ Thêm
+</button>
+
+</div>
+
+<button
+class="generate-btn"
+onclick="generate()"
+>
+✨ Tạo Bảng
+</button>
+
+</div>
+
+<!-- PREVIEW -->
+
+<div class="preview">
+
+<div class="paper" id="paper">
+
+<div class="paper-title">
+
+<h1 id="previewTitle">
+🌟 BẢNG LỊCH SINH HOẠT
+</h1>
+
+<p>
+Hoàn thành việc = 1 ngôi sao ⭐
+</p>
+
+</div>
+
+<div class="top-info">
+
+<div>
+Tên con:
+<b id="previewName">CHIMAY</b>
+</div>
+
+<div>
+Sao tuần trước:
+<b id="previewStar">15</b> ⭐
+</div>
+
+</div>
+
+<!-- MORNING -->
+
+<div class="block">
+
+<h2>🦆 VIỆC BUỔI SÁNG</h2>
 
 <table class="routine-table">
 
 <thead>
 
 <tr>
-
 <th>Việc cần làm</th>
 <th>T2</th>
 <th>T3</th>
@@ -313,30 +442,121 @@ onclick="addTask()"
 <th>T5</th>
 <th>T6</th>
 <th>T7</th>
-<th>Xóa</th>
-
+<th>CN</th>
 </tr>
 
 </thead>
 
-<tbody id="taskTable"></tbody>
+<tbody id="morningTable"></tbody>
 
 </table>
 
 </div>
 
+<!-- AFTERNOON -->
+
+<div class="block">
+
+<h2>🦆 VIỆC BUỔI CHIỀU</h2>
+
+<table class="routine-table">
+
+<thead>
+
+<tr>
+<th>Việc cần làm</th>
+<th>T2</th>
+<th>T3</th>
+<th>T4</th>
+<th>T5</th>
+<th>T6</th>
+<th>T7</th>
+<th>CN</th>
+</tr>
+
+</thead>
+
+<tbody id="afternoonTable"></tbody>
+
+</table>
+
 </div>
 
-<!-- FOOTER -->
+<!-- NIGHT -->
 
-<div class="footer">
+<div class="block">
 
-<button
-class="btn print-btn"
-onclick="window.print()"
->
-🖨️ In A4
-</button>
+<h2>🦆 VIỆC BUỔI TỐI</h2>
+
+<table class="routine-table">
+
+<thead>
+
+<tr>
+<th>Việc cần làm</th>
+<th>T2</th>
+<th>T3</th>
+<th>T4</th>
+<th>T5</th>
+<th>T6</th>
+<th>T7</th>
+<th>CN</th>
+</tr>
+
+</thead>
+
+<tbody id="nightTable"></tbody>
+
+</table>
+
+</div>
+
+<!-- STAR -->
+
+<div class="star-area">
+
+<h3>
+⭐ Tích đủ các bước trong 1 ngày
+→ Tô màu 1 ngôi sao bên dưới
+</h3>
+
+<div class="stars">
+
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+<div class="star"></div>
+
+</div>
+
+</div>
+
+<!-- NOTES -->
+
+<div class="bottom-grid">
+
+<div class="note-box">
+
+<h3>🎁 CỬA HÀNG ĐỔI QUÀ</h3>
+
+<div id="previewReward"></div>
+
+</div>
+
+<div class="note-box">
+
+<h3>⚠️ GÓC NHẮC NHỞ</h3>
+
+<div id="previewWarning"></div>
+
+</div>
+
+</div>
+
+</div>
 
 </div>
 
@@ -344,142 +564,198 @@ onclick="window.print()"
 
 <script>
 
-/* DATA */
+/* DEFAULT TASKS */
 
-let tasks = JSON.parse(
-localStorage.getItem("routineTasks")
-) || [
+const defaults = {
 
-"Đánh răng",
+morning:[
+"Dậy, gấp mền",
+"Vệ sinh cá nhân",
 "Ăn sáng",
-"Học bài"
+"Chuẩn bị cặp sách"
+],
 
-];
+afternoon:[
+"Đi học về",
+"Vui chơi",
+"Tắm rửa",
+"Lau nhà"
+],
 
-/* RENDER */
-
-function render(){
-
-let table =
-document.getElementById("taskTable");
-
-table.innerHTML = "";
-
-tasks.forEach((task,index)=>{
-
-let tr = document.createElement("tr");
-
-/* TASK NAME */
-
-let nameTd = document.createElement("td");
-
-let input = document.createElement("input");
-
-input.type = "text";
-
-input.value = task;
-
-input.oninput = (e)=>{
-
-tasks[index] = e.target.value;
-
-save();
+night:[
+"Ăn tối",
+"Làm bài tập",
+"Đánh răng",
+"Đi ngủ"
+]
 
 };
 
-nameTd.appendChild(input);
+/* CREATE INPUT */
+
+function createInput(containerId,value=""){
+
+let wrap = document.createElement("div");
+
+wrap.className = "task-input";
+
+let input = document.createElement("input");
+
+input.value = value;
+
+let del = document.createElement("button");
+
+del.innerText = "X";
+
+del.className =
+"small-btn delete-btn";
+
+del.onclick = ()=>{
+wrap.remove();
+};
+
+wrap.appendChild(input);
+wrap.appendChild(del);
+
+document
+.getElementById(containerId)
+.appendChild(wrap);
+
+}
+
+/* ADD TASK */
+
+function addTaskInput(containerId){
+
+createInput(containerId);
+
+}
+
+/* INIT */
+
+defaults.morning.forEach(t=>{
+createInput("morningInputs",t);
+});
+
+defaults.afternoon.forEach(t=>{
+createInput("afternoonInputs",t);
+});
+
+defaults.night.forEach(t=>{
+createInput("nightInputs",t);
+});
+
+/* GENERATE TABLE */
+
+function buildTable(tableId,containerId){
+
+let tbody =
+document.getElementById(tableId);
+
+tbody.innerHTML = "";
+
+let inputs =
+document.querySelectorAll(
+`#${containerId} input`
+);
+
+inputs.forEach(input=>{
+
+if(input.value.trim() === "") return;
+
+let tr =
+document.createElement("tr");
+
+let nameTd =
+document.createElement("td");
+
+nameTd.innerText = input.value;
 
 tr.appendChild(nameTd);
 
-/* DAYS */
+for(let i=0;i<7;i++){
 
-for(let i=0;i<6;i++){
+let td =
+document.createElement("td");
 
-let td = document.createElement("td");
+let box =
+document.createElement("div");
 
-let check =
-document.createElement("input");
+box.className = "checkbox";
 
-check.type = "checkbox";
-
-td.appendChild(check);
+td.appendChild(box);
 
 tr.appendChild(td);
 
 }
 
-/* DELETE */
-
-let delTd =
-document.createElement("td");
-
-let delBtn =
-document.createElement("button");
-
-delBtn.innerText = "❌";
-
-delBtn.className = "btn delete-btn";
-
-delBtn.onclick = ()=>{
-
-tasks.splice(index,1);
-
-save();
-
-render();
-
-};
-
-delTd.appendChild(delBtn);
-
-tr.appendChild(delTd);
-
-table.appendChild(tr);
+tbody.appendChild(tr);
 
 });
 
 }
 
-/* ADD */
+/* GENERATE */
 
-function addTask(){
+function generate(){
 
-tasks.push("");
+document.getElementById(
+"previewTitle"
+).innerText =
+document.getElementById(
+"titleInput"
+).value;
 
-save();
+document.getElementById(
+"previewName"
+).innerText =
+document.getElementById(
+"nameInput"
+).value;
 
-render();
+document.getElementById(
+"previewStar"
+).innerText =
+document.getElementById(
+"starInput"
+).value;
 
-}
+document.getElementById(
+"previewReward"
+).innerHTML =
+document.getElementById(
+"rewardInput"
+).value
+.replace(/\n/g,"<br>");
 
-/* SAVE */
+document.getElementById(
+"previewWarning"
+).innerHTML =
+document.getElementById(
+"warningInput"
+).value
+.replace(/\n/g,"<br>");
 
-function save(){
+buildTable(
+"morningTable",
+"morningInputs"
+);
 
-localStorage.setItem(
-"routineTasks",
-JSON.stringify(tasks)
+buildTable(
+"afternoonTable",
+"afternoonInputs"
+);
+
+buildTable(
+"nightTable",
+"nightInputs"
 );
 
 }
 
-/* ICON SELECT */
+/* FIRST RUN */
 
-document.querySelectorAll(".icon")
-.forEach(icon=>{
-
-icon.onclick = ()=>{
-
-document.querySelectorAll(".icon")
-.forEach(i=>i.classList.remove("active"));
-
-icon.classList.add("active");
-
-};
-
-});
-
-render();
+generate();
 
 </script>
 
